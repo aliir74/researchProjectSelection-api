@@ -6,25 +6,17 @@ const routes = require('./routes')
 const Basic = require('hapi-auth-basic')
 const User = require('./models/User')
 const Grade = require('./models/Grade')
-const Wolf = require('./models/Wolf')
 
 const server = new Hapi.Server()
 
 server.connection({port: 8000, routes: {cors: true}})
 
 const validate = function (req, username, password, callback) {
-    Wolf.find({name: username}, function (err, user) {
-        if (user.length === 0) {
+    User.find({username: username}, function (err, user) {
+        if (user.length === 0 || (user[0].password !== password)) {
             return callback(null, false)
         }
-        console.log(user)
-        callback(err, true, {id: user[0]._id, username: user[0].name})
-        /*
-        Bcrypt.compare(password, password, (err, isValid) => {
-            console.log(isValid)
-            callback(err, isValid, {id: user._id, username: user.name})
-        })
-        */
+        callback(err, true, {id: user[0]._id, username: user[0].username, name: user[0].name, grade: user[0].grade})
     })
 
 }
