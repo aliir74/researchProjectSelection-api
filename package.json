@@ -1,0 +1,11 @@
+{
+  "name": "researchProjectSelection-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Ali Irani",
+  "license": "MIT",
+  "dependencies": {
+    "hapi": "^16.6.1",
+    "mongoose": "^4.11.13"
+  }
+}
