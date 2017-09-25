@@ -30,6 +30,12 @@ bluebird@2.10.2:
   version "2.10.2"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-2.10.2.tgz#024a5517295308857f14f91f1106fc3b555f446b"
 
+boom@3.x.x:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/boom/-/boom-3.2.2.tgz#0f0cc5d04adc5003b8c7d71f42cca7271fef0e78"
+  dependencies:
+    hoek "4.x.x"
+
 boom@5.x.x, boom@^5.2.0:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/boom/-/boom-5.2.0.tgz#5dd9da6ee3a5f302077436290cb717d3f4a54e02"
@@ -90,6 +96,13 @@ debug@2.6.8:
 es6-promise@3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-3.2.1.tgz#ec56233868032909207170c39448e24449dd1fc4"
+
+hapi-auth-basic@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/hapi-auth-basic/-/hapi-auth-basic-4.2.0.tgz#a2f16b3e14317d44e3ad7934fe833f995ee82fc0"
+  dependencies:
+    boom "3.x.x"
+    hoek "4.x.x"
 
 hapi@^16.6.1:
   version "16.6.1"
