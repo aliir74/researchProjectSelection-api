@@ -46,7 +46,12 @@ server.register(Basic, (err) => {
         method: 'GET',
         path: '/projects/{grade}',
         handler: function (request, reply) {
-
+            Grade.find({grade: grade}, function (err, grades) {
+                if (err || grades.length === 0) {
+                    reply('error on getting projects')
+                }
+                reply(grades[0].projects)
+            })
 
         }
     })
