@@ -4,8 +4,8 @@ const Hapi = require('hapi')
 const db = require('./database').db
 const routes = require('./routes')
 const Basic = require('hapi-auth-basic')
-const Bcrypt = require('bcrypt')
 const User = require('./models/User')
+const Grade = require('./models/Grade')
 const Wolf = require('./models/Wolf')
 
 const server = new Hapi.Server()
@@ -49,6 +49,15 @@ server.register(Basic, (err) => {
             }
         }
     });
+
+    server.route({
+        method: 'GET',
+        path: '/projects/{grade}',
+        handler: function (request, reply) {
+
+
+        }
+    })
 
 
     server.start( (err) => {
