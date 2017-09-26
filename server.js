@@ -82,11 +82,21 @@ server.register(Basic, (err) => {
     //create user route
     server.route({
         method: 'POST',
-        path: '/adduser',
-        handler: function (request, reply) {
-
+        path: '/addusers',
+        config: {
+            payload: {
+                output: 'stream',
+                parse: true,
+                allow: 'multipart/form-data'
+            },
+            handler: function (request, reply) {
+                console.log(request.payload.file)
+                console.log(request.payload.file.hapi.filename)
+                reply('hello')
+            }
         }
     })
+
 
 
     server.start( (err) => {
