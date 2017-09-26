@@ -59,15 +59,22 @@ server.register(Basic, (err) => {
     server.route({
         method: 'POST',
         path: '/projects/{number}',
-        handler: function (request, reply) {
-            var grade = new Grade({grade: request.params.number, projects: []})
-            grade.save(function (err) {
-                if (err) {
-                    reply(err.message)
+        config: {
+            auth: 'simple',
+            handler: function (request, reply) {
+                if(request.auth.credentials.username !== 'admin') {
+                    reply('You are not admin!')
                     return
                 }
-                reply('ok')
-            })
+                var grade = new Grade({grade: request.params.number, projects: []})
+                grade.save(function (err) {
+                    if (err) {
+                        reply(err.message)
+                        return
+                    }
+                    reply('ok')
+                })
+            }
         }
     })
 
