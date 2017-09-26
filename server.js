@@ -49,6 +49,7 @@ server.register(Basic, (err) => {
             Grade.find({grade: request.params.grade}, function (err, grades) {
                 if (err || grades.length === 0) {
                     reply('error on getting projects')
+                    return
                 }
                 reply(grades[0].projects)
             })
@@ -69,12 +70,21 @@ server.register(Basic, (err) => {
                 var grade = new Grade({grade: request.params.number, projects: []})
                 grade.save(function (err) {
                     if (err) {
-                        reply(err.message)
+                        reply(err)
                         return
                     }
                     reply('ok')
                 })
             }
+        }
+    })
+
+    //create user route
+    server.route({
+        method: 'POST',
+        path: '/adduser',
+        handler: function (request, reply) {
+
         }
     })
 
