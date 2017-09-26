@@ -1,6 +1,3 @@
-const Wolf = require('./models/Wolf');
-
-
 var routes = [
 {
     method: 'GET',

@@ -1,7 +1,7 @@
 const Mongoose = require('mongoose')
 
 //load database
-Mongoose.connect('mongodb://localhost/hapi-learning/')
+Mongoose.connect('mongodb://localhost/reaserchProjectSelection/')
 var db = Mongoose.connection
 
 db.on('error', console.error.bind(console, 'connection error'))

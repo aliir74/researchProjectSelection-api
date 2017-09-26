@@ -46,13 +46,28 @@ server.register(Basic, (err) => {
         method: 'GET',
         path: '/projects/{grade}',
         handler: function (request, reply) {
-            Grade.find({grade: grade}, function (err, grades) {
+            Grade.find({grade: request.params.grade}, function (err, grades) {
                 if (err || grades.length === 0) {
                     reply('error on getting projects')
                 }
                 reply(grades[0].projects)
             })
 
+        }
+    })
+
+    server.route({
+        method: 'POST',
+        path: '/projects/{number}',
+        handler: function (request, reply) {
+            var grade = new Grade({grade: request.params.number, projects: []})
+            grade.save(function (err) {
+                if (err) {
+                    reply(err.message)
+                    return
+                }
+                reply('ok')
+            })
         }
     })
 
