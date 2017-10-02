@@ -1,6 +1,7 @@
 'use strict';
 
 const Hapi = require('hapi')
+const fs = require('fs')
 const db = require('./database').db
 const routes = require('./routes')
 const Basic = require('hapi-auth-basic')
@@ -90,9 +91,27 @@ server.register(Basic, (err) => {
                 allow: 'multipart/form-data'
             },
             handler: function (request, reply) {
-                console.log(request.payload.file)
-                console.log(request.payload.file.hapi.filename)
-                reply('hello')
+                var data = request.payload;
+                if (data.file) {
+                    var name = data.file.hapi.filename;
+                    var path = __dirname + "/uploads/" + name;
+                    var file = fs.createWriteStream(path);
+
+                    file.on('error', function (err) {
+                        console.error(err)
+                    });
+
+                    data.file.pipe(file);
+
+                    data.file.on('end', function (err) {
+                        var ret = {
+                            filename: data.file.hapi.filename,
+                            headers: data.file.hapi.headers
+                        }
+                        reply(JSON.stringify(ret));
+                    })
+                }
+
             }
         }
     })

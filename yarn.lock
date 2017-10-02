@@ -97,6 +97,10 @@ es6-promise@3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-3.2.1.tgz#ec56233868032909207170c39448e24449dd1fc4"
 
+fs@^0.0.1-security:
+  version "0.0.1-security"
+  resolved "https://registry.yarnpkg.com/fs/-/fs-0.0.1-security.tgz#8a7bd37186b6dddf3813f23858b57ecaaf5e41d4"
+
 hapi-auth-basic@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/hapi-auth-basic/-/hapi-auth-basic-4.2.0.tgz#a2f16b3e14317d44e3ad7934fe833f995ee82fc0"

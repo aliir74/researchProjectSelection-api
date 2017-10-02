@@ -5,6 +5,7 @@
   "author": "Ali Irani",
   "license": "MIT",
   "dependencies": {
+    "fs": "^0.0.1-security",
     "hapi": "^16.6.1",
     "hapi-auth-basic": "^4.2.0",
     "mongoose": "^4.11.13"
