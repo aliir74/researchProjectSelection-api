@@ -1,6 +1,7 @@
 'use strict';
 
 const Hapi = require('hapi')
+const XLSX = require('xlsx')
 const fs = require('fs')
 const db = require('./database').db
 const routes = require('./routes')
@@ -108,6 +109,11 @@ server.register(Basic, (err) => {
                             filename: data.file.hapi.filename,
                             headers: data.file.hapi.headers
                         }
+                        var buf = fs.readFileSync(path)
+                        var wb = XLSX.read(buf, {type:'buffer'})
+                        var sheet_name_list = wb.SheetNames;
+                        var xlData = XLSX.utils.sheet_to_json(wb.Sheets[sheet_name_list[1]])
+                        console.log(xlData)
                         reply(JSON.stringify(ret));
                     })
                 }
