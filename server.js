@@ -112,8 +112,8 @@ server.register(Basic, (err) => {
                         var buf = fs.readFileSync(path)
                         var wb = XLSX.read(buf, {type:'buffer'})
                         var sheet_name_list = wb.SheetNames;
-                        var xlData = XLSX.utils.sheet_to_json(wb.Sheets[sheet_name_list[1]])
-                        console.log(xlData)
+                        var xlData = XLSX.utils.sheet_to_json(wb.Sheets[sheet_name_list[0]])
+                        addUsersToDB(xlData, 7)
                         reply(JSON.stringify(ret));
                     })
                 }
@@ -132,5 +132,21 @@ server.register(Basic, (err) => {
     })
 })
 
+
+function addUsersToDB(data, grade) {
+    for (var i = 0; i < data.length; i++) {
+        var obj = {
+            username: data[i].username,
+            name: data[i].name,
+            password: data[i].mellicode,
+            grade: grade,
+            projects: []
+        }
+        console.log(data[i])
+        console.log(obj)
+        var newUser = new User(obj)
+        newUser.save()
+    }
+}
 
 
