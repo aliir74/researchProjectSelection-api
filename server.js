@@ -12,7 +12,11 @@ const Grade = require('./models/Grade')
 
 var buf = fs.readFileSync('admin.txt').toString().split('\n')
 var admin = new User({username: buf[0], password: buf[1], name: 'Admin'})
-admin.save()
+admin.save(function (err) {
+    if (err) {
+        console.log(err)
+    }
+})
 
 const server = new Hapi.Server()
 
