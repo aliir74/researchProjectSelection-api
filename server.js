@@ -151,9 +151,11 @@ server.register(Basic, (err) => {
                             filename: data.file.hapi.filename,
                             headers: data.file.hapi.headers
                         }
-                        var buf = fs.readFileSync(path)
-                        console.log(buf)
-                        reply(JSON.stringify(ret));
+                        console.log(path)
+                        fs.readFile(path, 'utf8', function (err, data) {
+                            console.log(data)
+                            reply(JSON.stringify(ret));
+                        })
                     })
                 }
             }
