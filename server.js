@@ -210,7 +210,6 @@ function addProjects(data, grade) {
 }
 
 function removeUsers() {
-    console.log(10)
     User.remove({username: {$ne: 'admin'}}, function (err, removed) {
         if (err) {
             console.log(err)
