@@ -37,7 +37,12 @@ server.register(Basic, (err) => {
         config: {
             auth: 'simple',
             handler: function (request, reply) {
-                reply('hello')
+                var res = {
+                    username: request.auth.credentials.username,
+                    grade: request.auth.credentials.grade,
+                    name: request.auth.credentials.name
+                }
+                reply(res)
                 //reply('hello, ' + request.auth.credentials.username);
                 //reply({request.auth.credentials.username})
             }
@@ -112,6 +117,7 @@ server.register(Basic, (err) => {
                         var buf = fs.readFileSync(path)
                         var wb = XLSX.read(buf, {type:'buffer'})
                         var sheet_name_list = wb.SheetNames;
+                        //removeUsers(به جز ادمین)
                         for (var i = 0; i < sheet_name_list.length; i++) {
                             var xlData = XLSX.utils.sheet_to_json(wb.Sheets[sheet_name_list[i]])
                             addUsersToDB(xlData, parseInt(sheet_name_list[i]) )
