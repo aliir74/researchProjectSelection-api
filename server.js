@@ -117,7 +117,7 @@ server.register(Basic, (err) => {
                         var buf = fs.readFileSync(path)
                         var wb = XLSX.read(buf, {type:'buffer'})
                         var sheet_name_list = wb.SheetNames;
-                        //removeUsers(به جز ادمین)
+                        removeUsers()
                         for (var i = 0; i < sheet_name_list.length; i++) {
                             var xlData = XLSX.utils.sheet_to_json(wb.Sheets[sheet_name_list[i]])
                             addUsersToDB(xlData, parseInt(sheet_name_list[i]) )
@@ -206,6 +206,16 @@ function addProjects(data, grade) {
             return
         }
         console.log('ok')
+    })
+}
+
+function removeUsers() {
+    console.log(10)
+    User.remove({username: {$ne: 'admin'}}, function (err, removed) {
+        if (err) {
+            console.log(err)
+            return
+        }
     })
 }
 
