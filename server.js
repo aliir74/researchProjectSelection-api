@@ -153,7 +153,7 @@ server.register(Basic, (err) => {
                         }
                         console.log(path)
                         fs.readFile(path, 'utf8', function (err, data) {
-                            console.log(data)
+                            addProjects(data.split('\n'), request.params.grade)
                             reply(JSON.stringify(ret));
                         })
                     })
@@ -191,6 +191,16 @@ function addUsersToDB(data, grade) {
             }
         })
     }
+}
+
+function addProjects(data, grade) {
+    Grade.update({grade: grade}, {projects: data}, function (err, doc) {
+        if (err) {
+            console.error(err)
+            return
+        }
+        console.log('ok')
+    })
 }
 
 
