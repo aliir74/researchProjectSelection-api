@@ -9,7 +9,9 @@ const Basic = require('hapi-auth-basic')
 const User = require('./models/User')
 const Grade = require('./models/Grade')
 
-var admin = new User({username: 'admin', password: 'lucky3rdTime', name: 'Admin'})
+
+var buf = fs.readFileSync('admin.txt').toString().split('\n')
+var admin = new User({username: buf[0], password: buf[1], name: 'Admin'})
 admin.save()
 
 const server = new Hapi.Server()
