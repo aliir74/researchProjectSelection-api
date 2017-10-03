@@ -9,6 +9,9 @@ const Basic = require('hapi-auth-basic')
 const User = require('./models/User')
 const Grade = require('./models/Grade')
 
+var admin = new User({username: 'admin', password: 'lucky3rdTime', name: 'Admin'})
+admin.save()
+
 const server = new Hapi.Server()
 
 server.connection({port: 8000, routes: {cors: true}})
@@ -98,7 +101,7 @@ server.register(Basic, (err) => {
             },
             handler: function (request, reply) {
                 var data = request.payload;
-                if (data.file) {
+                if (data.file.hapi) {
                     var name = data.file.hapi.filename;
                     var path = __dirname + "/uploads/" + name;
                     var file = fs.createWriteStream(path);
@@ -110,10 +113,7 @@ server.register(Basic, (err) => {
                     data.file.pipe(file);
 
                     data.file.on('end', function (err) {
-                        var ret = {
-                            filename: data.file.hapi.filename,
-                            headers: data.file.hapi.headers
-                        }
+
                         var buf = fs.readFileSync(path)
                         var wb = XLSX.read(buf, {type:'buffer'})
                         var sheet_name_list = wb.SheetNames;
@@ -122,8 +122,14 @@ server.register(Basic, (err) => {
                             var xlData = XLSX.utils.sheet_to_json(wb.Sheets[sheet_name_list[i]])
                             addUsersToDB(xlData, parseInt(sheet_name_list[i]) )
                         }
+                        var ret = {
+                            filename: data.file.hapi.filename,
+                            headers: data.file.hapi.headers,
+                        }
                         reply(JSON.stringify(ret));
                     })
+                } else {
+                    reply({ filename: 'no file' })
                 }
 
             }
@@ -141,7 +147,7 @@ server.register(Basic, (err) => {
             },
             handler: function (request, reply) {
                 var data = request.payload;
-                if (data.file) {
+                if (data.file.hapi) {
                     var name = data.file.hapi.filename;
                     var path = __dirname + "/uploads/" + name;
                     var file = fs.createWriteStream(path);
@@ -163,6 +169,8 @@ server.register(Basic, (err) => {
                             reply(JSON.stringify(ret));
                         })
                     })
+                } else {
+                    reply({ filename: 'no file' })
                 }
             }
         }
@@ -194,6 +202,7 @@ function addUsersToDB(data, grade) {
         newUser.save(function (err) {
             if (err) {
                 console.log(err)
+                return
             }
         })
     }
