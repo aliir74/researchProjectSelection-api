@@ -6,6 +6,7 @@ var UserSchema = new Schema({
     password: String,
     grade: Number,
     name: String,
+    enrolled: Boolean,
     projects: [{priority: Number, name: String}]
 })
 

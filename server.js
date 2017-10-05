@@ -189,11 +189,28 @@ server.register(Basic, (err) => {
                     return
                 }
                 doc.projects = projects
+                doc.enrolled = true
                 doc.save()
             })
         }
     })
 
+    // get number of enrolled user
+    server.route({
+        method: 'GET',
+        path: '/enrolled/{grade}',
+        handler: function (request, reply) {
+            var enrolled
+            var all
+            User.count({grade: request.params.grade, enrolled: true}, function (err, count) {
+                enrolled = count
+                User.count({grade: request.params.grade}, function (err, cnt) {
+                    all = cnt
+                    reply({enrolled: enrolled, all: all})
+                })
+            })
+        }
+    })
 
 
     server.start( (err) => {
@@ -214,7 +231,8 @@ function addUsersToDB(data, grade) {
             name: data[i].name,
             password: data[i].mellicode,
             grade: grade,
-            projects: []
+            projects: [],
+            enrolled: false
         }
         var newUser = new User(obj)
         newUser.save(function (err) {
