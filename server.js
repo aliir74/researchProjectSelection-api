@@ -180,7 +180,18 @@ server.register(Basic, (err) => {
     server.route({
         method: 'POST',
         path: '/adduserprojects',
-
+        handler: function (request, reply) {
+            var username = request.payload.username
+            var projects = request.payload.username
+            User.findOne({username: username}, function (err, doc) {
+                if (!doc) {
+                    reply('error')
+                    return
+                }
+                doc.projects = projects
+                doc.save()
+            })
+        }
     })
 
 
