@@ -10,13 +10,7 @@ const User = require('./models/User')
 const Grade = require('./models/Grade')
 
 
-var buf = fs.readFileSync('admin.txt').toString().split('\n')
-var admin = new User({username: buf[0], password: buf[1], name: 'Admin'})
-admin.save(function (err) {
-    if (err) {
-        console.log(err)
-    }
-})
+initializeDB()
 
 const server = new Hapi.Server()
 
@@ -83,6 +77,7 @@ server.register(Basic, (err) => {
                     reply('You are not admin!')
                     return
                 }
+                var buf = fs.readFileSync('admin.txt').toString().split('\n')
                 var grade = new Grade({grade: request.params.number, projects: []})
                 grade.save(function (err) {
                     if (err) {
@@ -182,6 +177,12 @@ server.register(Basic, (err) => {
         }
     })
 
+    server.route({
+        method: 'POST',
+        path: '/adduserprojects',
+
+    })
+
 
 
     server.start( (err) => {
@@ -231,6 +232,25 @@ function removeUsers() {
             return
         }
     })
+}
+
+function initializeDB() {
+    var buf = fs.readFileSync('admin.txt').toString().split('\n')
+    var admin = new User({username: buf[0], password: buf[1], name: 'Admin'})
+    admin.save(function (err) {
+        if (err) {
+            console.log(err)
+        }
+    })
+
+    for (var i = 7; i < 10; i++) {
+        var gr = new Grade({grade: i})
+        gr.save(function (err) {
+            if (err) {
+                console.log(err)
+            }
+        })
+    }
 }
 
 
