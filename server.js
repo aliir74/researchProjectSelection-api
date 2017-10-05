@@ -14,7 +14,7 @@ initializeDB()
 
 const server = new Hapi.Server()
 
-server.connection({port: 8000, routes: {cors: true}})
+server.connection({port: 8001, routes: {cors: true}})
 
 const validate = function (req, username, password, callback) {
     User.find({username: username}, function (err, user) {
@@ -179,10 +179,11 @@ server.register(Basic, (err) => {
 
     server.route({
         method: 'POST',
-        path: '/adduserprojects',
+        path: '/adduserprojects/{username}',
         handler: function (request, reply) {
-            var username = request.payload.username
-            var projects = request.payload.username
+            var username = request.params.username
+            var projects = request.payload.projects
+            // var after = projects.splice()
             User.findOne({username: username}, function (err, doc) {
                 if (!doc) {
                     reply('error')
@@ -191,6 +192,7 @@ server.register(Basic, (err) => {
                 doc.projects = projects
                 doc.enrolled = true
                 doc.save()
+                reply('ok')
             })
         }
     })
