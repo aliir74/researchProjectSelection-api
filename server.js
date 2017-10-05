@@ -21,7 +21,7 @@ const validate = function (req, username, password, callback) {
         if (user.length === 0 || (user[0].password !== password)) {
             return callback(null, false)
         }
-        callback(err, true, {id: user[0]._id, username: user[0].username, name: user[0].name, grade: user[0].grade})
+        callback(err, true, {id: user[0]._id, username: user[0].username, name: user[0].name, grade: user[0].grade, enrolled: user[9].enrolled})
     })
 
 }
@@ -44,6 +44,7 @@ server.register(Basic, (err) => {
                     username: request.auth.credentials.username,
                     grade: request.auth.credentials.grade,
                     name: request.auth.credentials.name
+                    enrolled: request.auth.credentials.enrolled
                 }
                 reply(res)
                 //reply('hello, ' + request.auth.credentials.username);
