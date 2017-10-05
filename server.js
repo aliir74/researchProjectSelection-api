@@ -214,6 +214,34 @@ server.register(Basic, (err) => {
         }
     })
 
+    server.route({
+        method: 'GET',
+        path: '/enrolled',
+        handler: function (request, reply) {
+            var enrolled = [0, 0, 0]
+            var all = [0, 0, 0]
+            User.count({grade: 7, enrolled: true}, function (err, count) {
+                enrolled[0] = count
+                User.count({grade: 7}, function (err, cnt) {
+                    all[0] = cnt
+                    User.count({grade: 8, enrolled: true}, function (err, count) {
+                        enrolled[1] = count
+                        User.count({grade: 8}, function (err, cnt) {
+                            all[1] = cnt
+                            User.count({grade: 9, enrolled: true}, function (err, count) {
+                                enrolled[2] = count
+                                User.count({grade: 9}, function (err, cnt) {
+                                    all[2] = cnt
+                                    reply({enrolled: enrolled, all: all})
+                                })
+                            })
+                        })
+                    })
+                })
+            })
+        }
+    })
+
 
     server.start( (err) => {
         if (err) {
